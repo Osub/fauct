@@ -4,7 +4,8 @@ var router = express.Router();
 /* GET users listing. */
 var URL= require('url');
 var exec = require('child_process').exec;
-var pw='PW5KHs2bSQGMwE5gQvBm6PdX7BvUnY6vaUsBCM44y1XvAgNTuX28F';
+var pw='PW5KMWXbvZ4tP4nXc1PbR69wR6DXhgJyGtH5kWfbk1AWiSccQ7y8m';
+var cleos='/home/ubuntu/eos/build/programs/cleos';
 /* GET home page. 
 router.get('/', function(req, res, next) {
   res.render('Hello World');
@@ -13,7 +14,7 @@ router.get('/', function(req, res, next) {
 //检查钱包是否锁定
 function checkwallet(res,callback){
 	//cleos wallet keys
-	var cmdstr='cleos wallet keys';
+	var cmdstr=cleos+' wallet keys';
 	exec(cmdstr,function(err,stdout,stderr){
 		callback(err,stdout,res);
 	})
@@ -22,7 +23,7 @@ function checkwallet(res,callback){
 function unlockwallet(res,callback){
 	//cleos wallet unlock --password PW5KHs2bSQGMwE5gQvBm6PdX7BvUnY6vaUsBCM44y1XvAgNTuX28F
 	console.log("正在解锁钱包......");
-	var cmdstr='cleos wallet unlock --password '+pw;
+	var cmdstr=cleos+' wallet unlock --password '+pw;
 	exec(cmdstr,function(err,stdout,stderr){
 		callback(err,stdout,res);
 	})
@@ -31,7 +32,7 @@ function unlockwallet(res,callback){
 function claimtoken(res,toname,callback){
 	//cleos -u "http://api-kylin.eosasia.one" push action wafytoken123 transfer
 	// '["wafydevtoken","moon11112222","1000000.0000 MZ","dev token"]' -p wafydevtoken@active	
-	var cmdstr='cleos -u "https://api-kylin.eosasia.one" push action wafytoken123 transfer \'["wafydevtoken",'+toname+',"100.0000 MZ","dev token"]\' -p wafydevtoken@active';
+	var cmdstr=cleos+' -u "https://api-kylin.eosasia.one" push action wafytoken123 transfer \'["wafydevtoken",'+toname+',"100.0000 MZ","dev token"]\' -p wafydevtoken@active';
 	exec(cmdstr,function(err,stdout,stderr){
 		callback(err,stdout,res);
 	})
